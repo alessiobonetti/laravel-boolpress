@@ -45,9 +45,19 @@ class ArticleController extends Controller
 
         $request->validate([
             "title"=> "required",
-            "slug"=> "required",
+            "slug"=> "required|unique:articles",
             "content"=> "required"
         ]);
+
+        $newArticle = new Article;
+        $newArticle->user_id = Auth::id();
+        $newArticle->title = $data["title"];
+        $newArticle->slug = $data["slug"];
+        $newArticle->content = $data["content"];
+
+        $newArticle->save();
+
+        return redirect()->route("admin.posts.show", $newArticle->slug);    
     }
 
     /**
@@ -56,9 +66,11 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show( $slug)
     {
-        //
+        $article = Article::where("slug", $slug)->first();
+
+        return view("admin.posts.show", compact("article"));
     }
 
     /**
