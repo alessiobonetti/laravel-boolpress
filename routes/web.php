@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::prefix("admin")->namespace("Admin")->middleware("auth")->group(function () {
+Route::prefix("admin")->name("admin.")->namespace("Admin")->middleware("auth")->group(function () {
     Route::get("/", "HomeController@index")->name("home");
     Route::resource("posts", "ArticleController");
 });
+
+Route::get("posts" , "ArticleController@index")->name("posts.index");
+Route::get("posts/{slug}", "ArticleController@show")->name("posts.show");

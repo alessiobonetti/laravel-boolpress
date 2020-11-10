@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Article;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class ArticleController extends Controller
         $user_id = Auth::id();
         $articles = Article::where("user_id", $user_id)->get();
 
-        
+        return view("admin.posts.index", compact("articles"));
         
     }
 
@@ -30,7 +30,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.posts.create");
     }
 
     /**
@@ -41,7 +41,13 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $request->validate([
+            "title"=> "required",
+            "slug"=> "required",
+            "content"=> "required"
+        ]);
     }
 
     /**
