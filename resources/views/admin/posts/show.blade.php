@@ -5,7 +5,7 @@
         <h3>{{$article->title }}</h3>
 
         <div>
-            <img src="{{ asset("storage/".$article->image)}}" alt="{{$article->title}}">
+            <img src="{{ asset("storage/".$article->image)}}" alt="immagine di {{$article->title}}">
         </div>
 
         <div>

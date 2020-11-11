@@ -51,7 +51,9 @@ class ArticleController extends Controller
             "image"=>"image"
         ]);
 
-        $path = Storage::disk("public")->put("images", $data["image"]);
+        $id = Auth::id();
+
+        $path = Storage::disk("public")->put("images/$id", $data["image"]);
 
         $newArticle = new Article;
         $newArticle->user_id = Auth::id();
