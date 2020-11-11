@@ -6,6 +6,7 @@ use App\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -46,14 +47,18 @@ class ArticleController extends Controller
         $request->validate([
             "title"=> "required",
             "slug"=> "required|unique:articles",
-            "content"=> "required"
+            "content"=> "required",
+            "image"=>"image"
         ]);
+
+        $path = Storage::disk("public")->put("images", $data["image"]);
 
         $newArticle = new Article;
         $newArticle->user_id = Auth::id();
         $newArticle->title = $data["title"];
         $newArticle->slug = $data["slug"];
         $newArticle->content = $data["content"];
+        $newArticle->image = $path;
 
         $newArticle->save();
 
